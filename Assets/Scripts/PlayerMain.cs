@@ -61,7 +61,7 @@ public class PlayerMain : MonoBehaviour
     void Shoot()
     {
         GameObject b = Instantiate(bullet, this.transform);
-        b.GetComponent<Rigidbody2D>().velocity = Vector2.right;
+        b.GetComponent<Rigidbody2D>().velocity = Vector2.right *10;
     }
 
     public void HurtPlayer(float value)
@@ -101,5 +101,17 @@ public class PlayerMain : MonoBehaviour
     {
         speed -= value;
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 10)
+        {
+            KillPlayer();
+        }
     }
 }
