@@ -23,6 +23,12 @@ public class PlayerMain : MonoBehaviour
     float currentHealth;
     [SerializeField] Slider healthBar;
 
+    [Header("SoundEffects")]
+    [SerializeField] AudioClip winSound;
+    [SerializeField] AudioClip deathSound;
+    [SerializeField] AudioClip shootSound;
+    [SerializeField] AudioClip jumpSound;
+
     Rigidbody2D rb;
     GameEnd gameEnd;
 
@@ -73,6 +79,7 @@ public class PlayerMain : MonoBehaviour
     void Jump()
     {
         rb.velocity = new Vector2(0, jumpheight);
+        PlaySoundEffect(jumpSound);
     }
 
     void Shoot()
@@ -80,6 +87,7 @@ public class PlayerMain : MonoBehaviour
         GameObject b = Instantiate(bullet, this.transform);
         b.GetComponent<Rigidbody2D>().velocity = Vector2.right *10;
         currentBulletCount--;
+        PlaySoundEffect(shootSound);
     }
 
     public void HurtPlayer(float value)
@@ -102,11 +110,13 @@ public class PlayerMain : MonoBehaviour
 
     public void WinGame()
     {
+        PlaySoundEffect(winSound);
         gameEnd.EndGame(true);
     }
 
     public void KillPlayer()
     {
+        PlaySoundEffect(deathSound);
         gameEnd.EndGame(false);
     }
 
@@ -128,6 +138,14 @@ public class PlayerMain : MonoBehaviour
         healthBar.value = currentHealth;
 
         bulletBar.value = currentBulletCount;
+    }
+
+    void PlaySoundEffect(AudioClip sound)
+    {
+        if (sound)
+        {
+            AudioSource.PlayClipAtPoint(sound, transform.position);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class BreakableObject : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] AudioClip breakSound;
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if (collision.gameObject.layer == 7)
+        {
+            if (breakSound)
+            {
+                AudioSource.PlayClipAtPoint(breakSound, gameObject.transform.position);
+            }
+            Destroy(gameObject);
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
 }

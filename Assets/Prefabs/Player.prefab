@@ -110,6 +110,10 @@ MonoBehaviour:
   bulletBar: {fileID: 1323676812480575907}
   maxHealth: 5
   healthBar: {fileID: 1556966356007797294}
+  winSound: {fileID: 8300000, guid: c12668189bcea964fbcf27268498939a, type: 3}
+  deathSound: {fileID: 8300000, guid: c9dd4c02c95dea844b8880abc0e90439, type: 3}
+  shootSound: {fileID: 8300000, guid: 61c885bd47fb73440bc20daa2c9b8c6c, type: 3}
+  jumpSound: {fileID: 8300000, guid: 319c104e904b6c44e9daa2b7c5c07b0d, type: 3}
 --- !u!50 &1185503407671162831
 Rigidbody2D:
   serializedVersion: 4
