@@ -40,7 +40,7 @@ public class GameEnd : MonoBehaviour
         
     }
 
-    public void EndGame(bool win)
+    public void EndGame(bool win)  //decided to use the same function for both winning and losing for some reason was just a cool thing to try
     {
         Time.timeScale = 0;
         if (win)
@@ -54,7 +54,7 @@ public class GameEnd : MonoBehaviour
             float seconds = (time - (minutes * 60));
             currentTimeText.text = minutes.ToString() + ":" + seconds.ToString("00.0");
 
-            if (time < bestTime)
+            if (time < bestTime || bestTime == 0)  //if player gets new best time or there was no time before
             {
                 newRecordPopUp.SetActive(true);
                 PlayerPrefs.SetFloat(SceneManager.GetActiveScene().name,time);

@@ -5,10 +5,10 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField] GameObject player;
-    public float distanceFromCenter = 2.4f;
-    public float speed = 10;
-    public float xOffSet = -2;
-    public float yOffSet = -0.5f;
+    [SerializeField] float distanceFromCenter = 2.4f;
+    [SerializeField] float speed = 10;
+    [SerializeField] float xOffSet = -2;
+    [SerializeField] float yOffSet = -0.5f;
 
 
     // Update is called once per frame

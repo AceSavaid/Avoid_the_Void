@@ -35,6 +35,7 @@ public class PlayerMain : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         gameEnd = FindObjectOfType<GameEnd>();
 
+        //ui and stat setting 
         currentHealth = maxHealth;
         healthBar.maxValue = maxHealth;
         healthBar.value = currentHealth;
@@ -64,7 +65,9 @@ public class PlayerMain : MonoBehaviour
     void Move()
     {
         float movedir = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(movedir * speed, rb.velocity.y);
+        float xmovement = Mathf.Lerp(transform.position.x, transform.position.x+ movedir, Time.deltaTime * speed);
+        transform.position = new Vector3(xmovement, transform.position.y, transform.position.z);
+        //rb.velocity = new Vector2(movedir * speed, rb.velocity.y);
 
     }
     void Jump()
@@ -129,7 +132,7 @@ public class PlayerMain : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == 9)
+        if (collision.gameObject.layer == 9 || collision.gameObject.layer == 8) //ground or breakable wall
         {
             isGrounded = true;
         }
@@ -137,7 +140,7 @@ public class PlayerMain : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == 9)
+        if (collision.gameObject.layer == 9 || collision.gameObject.layer == 8)
         {
             isGrounded = false;
         }
