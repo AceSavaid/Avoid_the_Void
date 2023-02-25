@@ -28,6 +28,10 @@ public class GameEnd : MonoBehaviour
         {
             bestTime = PlayerPrefs.GetFloat(SceneManager.GetActiveScene().name);
         }
+        else
+        {
+            bestTime = 0;
+        }
     }
 
     // Update is called once per frame
@@ -41,7 +45,16 @@ public class GameEnd : MonoBehaviour
         Time.timeScale = 0;
         if (win)
         {
-            if (time > bestTime)
+            GetTime();
+            int bminutes = (int)bestTime / 60;
+            float bseconds = (bestTime - (bminutes * 60));
+            bestTimeText.text = bminutes.ToString() + ":" + bseconds.ToString("00.0");
+
+            int minutes = (int)time / 60;
+            float seconds = (time - (minutes * 60));
+            currentTimeText.text = minutes.ToString() + ":" + seconds.ToString("00.0");
+
+            if (time < bestTime)
             {
                 newRecordPopUp.SetActive(true);
                 PlayerPrefs.SetFloat(SceneManager.GetActiveScene().name,time);
@@ -72,7 +85,7 @@ public class GameEnd : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    void getTime()
+    void GetTime()
     {
         time = timer.GetTime();
     }

@@ -6,22 +6,26 @@ using UnityEngine.UI;
 
 public class PlayerMain : MonoBehaviour
 {
+    [Header ("Movement Stats")]
     [SerializeField] float speed = 4;
     [SerializeField] KeyCode jumpButton = KeyCode.W;
     [SerializeField] float jumpheight = 5;
 
+    [Header("Bullet Stats")]
     [SerializeField] KeyCode shootButton = KeyCode.Space;
     [SerializeField] GameObject bullet;
-    [SerializeField] int bulletCount = 3;
+    [SerializeField] int bulletCount = 5;
     int currentBulletCount;
     [SerializeField] Slider bulletBar;
 
-    [SerializeField] float maxHealth = 5;
+    [Header("Health")]
+    [SerializeField] float maxHealth = 3;
     float currentHealth;
     [SerializeField] Slider healthBar;
 
     Rigidbody2D rb;
     GameEnd gameEnd;
+
 
     bool isGrounded;
 
@@ -30,21 +34,31 @@ public class PlayerMain : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         gameEnd = FindObjectOfType<GameEnd>();
+
+        currentHealth = maxHealth;
+        healthBar.maxValue = maxHealth;
+        healthBar.value = currentHealth;
+
+        currentBulletCount = bulletCount;
+        bulletBar.maxValue = bulletCount;
+        bulletBar.value = currentBulletCount;
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
-        if (Input.GetKeyDown(jumpButton))
+        if (Input.GetKeyDown(jumpButton) && isGrounded)
         {
-
+            Jump();
         }
 
-        if (Input.GetKeyDown(shootButton))
+        if (Input.GetKeyDown(shootButton) && currentBulletCount >0)
         {
             Shoot();
         }
+
+        UpdateUI();
     }
 
     void Move()
@@ -62,6 +76,7 @@ public class PlayerMain : MonoBehaviour
     {
         GameObject b = Instantiate(bullet, this.transform);
         b.GetComponent<Rigidbody2D>().velocity = Vector2.right *10;
+        currentBulletCount--;
     }
 
     public void HurtPlayer(float value)
@@ -97,21 +112,54 @@ public class PlayerMain : MonoBehaviour
         speed += value;
     }
 
-    public void DownGradeSpeed(float value)
+    public void InceaseBullet()
     {
-        speed -= value;
-
+        if (currentBulletCount < bulletCount)
+        {
+            currentBulletCount++;
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void UpdateUI()
     {
-        
+        healthBar.value = currentHealth;
+
+        bulletBar.value = currentBulletCount;
     }
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.gameObject.layer == 10)
+        if (collision.gameObject.layer == 9)
+        {
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 9)
+        {
+            isGrounded = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //death
+        if (collision.gameObject.layer == 10)
         {
             KillPlayer();
         }
+        //win
+        if (collision.gameObject.layer == 11)
+        {
+            WinGame();
+        }
+        //upgrades
+        if (collision.gameObject.layer == 12)
+        {
+            UpgradeSpeed(collision.gameObject.GetComponent<SpeedUpgrades>().GetUpgrade());
+        }
     }
+    
 }
