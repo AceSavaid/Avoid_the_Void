@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerMain : MonoBehaviour
 {
@@ -17,11 +18,14 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] int bulletCount = 5;
     int currentBulletCount;
     [SerializeField] Slider bulletBar;
+    [SerializeField] TMP_Text bulletCountText;
+
 
     [Header("Health")]
     [SerializeField] float maxHealth = 3;
     float currentHealth;
     [SerializeField] Slider healthBar;
+    
 
     [Header("SoundEffects")]
     [SerializeField] AudioClip winSound;
@@ -49,6 +53,8 @@ public class PlayerMain : MonoBehaviour
         currentBulletCount = bulletCount;
         bulletBar.maxValue = bulletCount;
         bulletBar.value = currentBulletCount;
+        bulletCountText.text = currentBulletCount.ToString() + "/" + bulletCount.ToString();
+
     }
 
     // Update is called once per frame
@@ -138,6 +144,7 @@ public class PlayerMain : MonoBehaviour
         healthBar.value = currentHealth;
 
         bulletBar.value = currentBulletCount;
+        bulletCountText.text = currentBulletCount.ToString() + "/" + bulletCount.ToString();
     }
 
     void PlaySoundEffect(AudioClip sound)
