@@ -4,23 +4,15 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    KeyCode pauseKey = KeyCode.P;
     bool isPaused = false;
     [SerializeField] GameObject pauseScreen;
 
+    PlayerControls controls;
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(pauseKey))
-        {
-            TogglePause();
-        }
+        controls = new PlayerControls();
+        controls.Player.Pause.performed += ctx => TogglePause();
     }
 
     void TogglePause()
